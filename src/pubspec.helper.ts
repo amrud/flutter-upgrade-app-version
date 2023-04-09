@@ -50,12 +50,6 @@ export class PubSpecHelper {
     const appName = pubspecLines[0].split(":")[1].trim();
     const appDescription = pubspecLines[1].split(":")[1].trim();
 
-    //console log the project name
-    console.log("app_name: " + appName);
-    console.log("app_description:" + appDescription);
-    core.setOutput("project_name", appName);
-    core.setOutput("app_description", appDescription);
-
     //get the version
     //filter pubspeclines by starts with version
     let versionLine = pubspecLines.find((line: string) =>
@@ -69,12 +63,6 @@ export class PubSpecHelper {
       //get versionname
       const versionName = versionLine.split("+")[0];
       const buildNumber = versionLine.split("+")[1];
-
-      console.log("current_version_name: " + versionName);
-      console.log("current_build_number: " + buildNumber);
-      //output to github action
-      core.setOutput("current_version_name", versionName);
-      core.setOutput("current_build_number", buildNumber);
 
       //increase the version
       const versionModel = new VersionModel();

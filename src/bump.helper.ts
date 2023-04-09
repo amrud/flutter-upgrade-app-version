@@ -31,6 +31,9 @@ export class BumpHelper {
       ? require(process.env.GITHUB_EVENT_PATH)
       : {};
 
+    console.log("event:", event);
+    console.log("versionType:", versionType);
+
     if (!event.commits && !versionType) {
       console.log(
         "Couldn't find any commits in this event, incrementing patch version..."
