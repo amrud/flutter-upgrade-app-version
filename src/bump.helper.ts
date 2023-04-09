@@ -79,8 +79,6 @@ export class BumpHelper {
       throw new Error("No action necessary because we found a previous bump!");
     }
 
-    console.log("versionType:", versionType);
-
     // case if version-type found
     if (versionType) {
       version = versionType;
