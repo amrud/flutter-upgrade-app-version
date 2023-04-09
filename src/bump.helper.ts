@@ -66,7 +66,6 @@ export class BumpHelper {
         undefined;
     } else if (bumpPolicy === "last-commit") {
       console.log("checking last commits...");
-
       isVersionBump =
         messages.length > 0 &&
         commitMessageRegex.test(messages[messages.length - 1]);
@@ -79,6 +78,8 @@ export class BumpHelper {
     if (isVersionBump) {
       throw new Error("No action necessary because we found a previous bump!");
     }
+
+    console.log("versionType:", versionType);
 
     // case if version-type found
     if (versionType) {
