@@ -30,7 +30,11 @@ try {
 
   //write to file pubspec.yaml
   pubspecHelper.writePubSpec(versionModel);
-} catch (error) {
-  console.error(error);
+} catch (error: any) {
   core.setFailed("Action failed with error");
+  core.summary
+    .addHeading("Action failed with error")
+    .addRaw("Error message: " + error.message)
+    .addEOL()
+    .write();
 }
