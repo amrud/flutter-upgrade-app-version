@@ -2,13 +2,13 @@
   "name": "upgradeflutterversion",
   "version": "1.0.0",
   "description": "Github action to upgrade flutter version",
-  "main": "dist/src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "prestart": "npm run build",
     "start": "tsc && node dist/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "package": "ncc build --source-map --license licenses.txt"
+    "package": "ncc build dist/src/index.js --source-map --license licenses.txt"
   },
   "keywords": [
     "flutter"
