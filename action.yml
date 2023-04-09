@@ -1,0 +1,20 @@
+# this file describes what is this for
+
+name: "Flutter Read Version Action"
+author: "ismiammar"
+description: "Github action to read current version from pubspec.yaml"
+
+inputs:
+  directory:
+    description: "Directory of the project"
+    required: false
+    default: ""
+    type: string
+  token:
+    description: "Token to access github api"
+    required: false
+    type: string
+
+runs:
+  using: "node16"
+  main: "dist/index.js"
