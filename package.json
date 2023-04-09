@@ -2,7 +2,7 @@
   "name": "upgradeflutterversion",
   "version": "1.0.0",
   "description": "Github action to upgrade flutter version",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "prestart": "npm run build",
