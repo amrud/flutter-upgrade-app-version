@@ -5,10 +5,10 @@ export class BumpHelper {
     let targetBranch = core.getInput("target-branch");
     let minorWords = core.getInput("minor-wording")
       ? core.getInput("minor-wording").split(",")
-      : [];
+      : ["minor"];
     let majorWords = core.getInput("major-wording")
       ? core.getInput("major-wording").split(",")
-      : [];
+      : ["major"];
     let patchWords = core.getInput("patch-wording")
       ? core.getInput("patch-wording").split(",")
       : [];
@@ -16,7 +16,7 @@ export class BumpHelper {
     let commitMessage = core.getInput("commit-message"); //to bypass from commit message, if not set, will use commit message to determine version type
     const tagPrefix = core.getInput("tag-prefix");
     const tagSuffix = core.getInput("tag-suffix");
-    const bumpPolicy = core.getInput("bump-policy") || "all";
+    const bumpPolicy = core.getInput("bump-policy") || "last-commit";
     let version = core.getInput("default") || "patch";
     let preid = core.getInput("preid") || "rc";
 
@@ -40,10 +40,7 @@ export class BumpHelper {
       );
     }
 
-    if (
-      process.env["INPUT_VERSION-TYPE"] &&
-      !allowedTypes.includes(process.env["INPUT_VERSION-TYPE"])
-    ) {
+    if (versionType && !allowedTypes.includes(versionType)) {
       throw new Error("Invalid version type");
     }
 
@@ -63,10 +60,13 @@ export class BumpHelper {
 
     let isVersionBump = false;
     if (bumpPolicy === "all") {
+      console.log("checking all commits...");
       isVersionBump =
         messages.find((message: any) => commitMessageRegex.test(message)) !==
         undefined;
     } else if (bumpPolicy === "last-commit") {
+      console.log("checking last commits...");
+
       isVersionBump =
         messages.length > 0 &&
         commitMessageRegex.test(messages[messages.length - 1]);
