@@ -11,7 +11,7 @@ export class BumpHelper {
       : ["major"];
     let patchWords = core.getInput("patch-wording")
       ? core.getInput("patch-wording").split(",")
-      : [];
+      : ["patch"];
     const versionType = core.getInput("version-type"); //to bypass from commit message, if not set, will use commit message to determine version type
     let commitMessage = core.getInput("commit-message"); //to bypass from commit message, if not set, will use commit message to determine version type
     const tagPrefix = core.getInput("tag-prefix");
