@@ -8,7 +8,7 @@
     "prestart": "npm run build",
     "start": "tsc && node dist/src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "package": "ncc build dist/src/index.js --source-map --license licenses.txt"
+    "package": "ncc build dist/src/index.js --license licenses.txt"
   },
   "keywords": [
     "flutter"
