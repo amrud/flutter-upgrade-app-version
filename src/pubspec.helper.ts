@@ -2,10 +2,24 @@ import { VersionModel } from "./version.model";
 import * as core from "@actions/core";
 
 export class PubSpecHelper {
-  public static writePubSpec(path: string, newVersion: VersionModel) {
+  path: string;
+
+  constructor() {
+    let directory = core.getInput("directory");
+    const filename = "pubspec.yaml";
+    if (!directory) {
+      directory = "";
+    } else {
+      directory = directory + "/";
+    }
+    this.path = `${directory}${filename}`;
+    console.log(">> pubspec.yaml directory: " + this.path);
+  }
+
+  public writePubSpec(newVersion: VersionModel) {
     const fs = require("fs");
     //replace the version in pubspec.yaml
-    const pubspec = fs.readFileSync(path, "utf8");
+    const pubspec = fs.readFileSync(this.path, "utf8");
     const pubspecLines = pubspec.split("\n");
 
     let versionLine = pubspecLines.find((line: string) =>
@@ -17,22 +31,21 @@ export class PubSpecHelper {
       pubspecLines[pubspecLines.indexOf(versionLine)] = newVersionLine;
 
       //write back to file
-      fs.writeFileSync(path, pubspecLines.join("\n"), "utf8");
+      fs.writeFileSync(this.path, pubspecLines.join("\n"), "utf8");
     }
   }
 
-  public static readPubSpec(path: string): VersionModel {
+  public readPubSpec(): VersionModel {
     const fs = require("fs");
-    console.log(">> pubspec.yaml directory: " + path);
 
     //check if pubspec.yaml exists
-    if (!fs.existsSync(path)) {
+    if (!fs.existsSync(this.path)) {
       console.log(">> pubspec.yaml not found");
       throw new Error("pubspec.yaml not found");
     }
 
     console.log(">> pubspec.yaml exist");
-    const pubspec = fs.readFileSync(path, "utf8");
+    const pubspec = fs.readFileSync(this.path, "utf8");
     const pubspecLines = pubspec.split("\n");
     const appName = pubspecLines[0].split(":")[1].trim();
     const appDescription = pubspecLines[1].split(":")[1].trim();

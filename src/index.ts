@@ -3,39 +3,33 @@ import { PubSpecHelper } from "./pubspec.helper";
 import { VersionHelper } from "./version.helper";
 import { BumpHelper } from "./bump.helper";
 
-let directory = core.getInput("directory");
 const token = core.getInput("token");
 
 try {
-  const filename = "pubspec.yaml";
-  if (!directory) {
-    directory = "";
-  } else {
-    directory = directory + "/";
-  }
-
-  // const allowedTypes = ["major", "minor", "patch"];
-  // console.log("config words:", {
-  //   majorWords,
-  //   minorWords,
-  //   patchWords,
-  // });
-
-  //read from file pubspec.yaml and get the name of the project
-  //use readPubSpec from read-pubspec.ts
+  let pubspecHelper = new PubSpecHelper();
 
   const bumpType = new BumpHelper().getBumpType();
+  const versionModel = pubspecHelper.readPubSpec();
 
-  const path = `${directory}${filename}`;
-  const versionModel = PubSpecHelper.readPubSpec(path);
-  console.log("build:", versionModel.build);
-  console.log("version:", versionModel.version);
-  VersionHelper.incrementVersion(versionModel, bumpType);
+  //console log the project name
+  console.log("app_name: " + versionModel.appName);
+  console.log("app_description:" + versionModel.appDescription);
+  console.log("current_version_name: " + versionModel.version);
+  console.log("current_build_number: " + versionModel.build);
+  //output to github action
+  core.setOutput("app_description", versionModel.appDescription);
+  core.setOutput("app_name", versionModel.appName);
+  core.setOutput("current_version_name", versionModel.version);
+  core.setOutput("current_build_number", versionModel.build);
+
+  let newVersion = VersionHelper.incrementVersion(versionModel, bumpType);
   console.log("new version:", versionModel.version);
   console.log("new build:", versionModel.build);
+  core.setOutput("new_version_name", newVersion.version);
+  core.setOutput("new_build_number", newVersion.build);
 
   //write to file pubspec.yaml
-  PubSpecHelper.writePubSpec(path, versionModel);
+  pubspecHelper.writePubSpec(versionModel);
 } catch (error) {
   console.error(error);
   core.setFailed("Action failed with error");
