@@ -23,8 +23,8 @@ try {
   core.setOutput("current_build_number", versionModel.build);
 
   let newVersion = VersionHelper.incrementVersion(versionModel, bumpType);
-  console.log("new version:", versionModel.version);
-  console.log("new build:", versionModel.build);
+  console.log("new version:", newVersion.version);
+  console.log("new build:", newVersion.build);
   core.setOutput("new_version_name", newVersion.version);
   core.setOutput("new_build_number", newVersion.build);
 

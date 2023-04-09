@@ -68,6 +68,8 @@ export class PubSpecHelper {
       const versionModel = new VersionModel();
       versionModel.version = versionName;
       versionModel.build = buildNumber;
+      versionModel.appName = appName;
+      versionModel.appDescription = appDescription;
       return versionModel;
     }
 
